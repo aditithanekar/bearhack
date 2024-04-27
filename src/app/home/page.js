@@ -4,7 +4,7 @@ import About from "../../components/home/About";
 const page = () => {
   return (
     <div>
-        < About />
+      < About />
     </div>
   );
 };
