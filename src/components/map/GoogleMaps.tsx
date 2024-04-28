@@ -69,9 +69,13 @@ const GoogleMaps = () => {
                     const latitude = parseFloat(columns[4]); // Index 4 is latitude
                     const longitude = parseFloat(columns[5]); // Index 5 is longitude
                     // Create marker for each row
-                    new Marker({
+                    const marker = new Marker({
                       position: { lat: latitude, lng: longitude },
                       map: map,
+                    });
+                    marker.addListener('click', () => {
+                      // Display row information when marker is clicked
+                      alert(row);
                     });
                   });
                 };
