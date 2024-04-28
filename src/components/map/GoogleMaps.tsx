@@ -15,7 +15,6 @@ const GoogleMaps = () => {
 
       const { Map } = await loader.importLibrary('maps');
       const { Marker } = (await loader.importLibrary('marker')) as google.maps.MarkerLibrary;
-      // const { Geocoder } = (await loader.importLibrary('geocoding')) as google.maps.GeocodingLibrary;
 
       // Get user's current location
       navigator.geolocation.getCurrentPosition(
@@ -29,14 +28,14 @@ const GoogleMaps = () => {
 
           const options: google.maps.MapOptions = {
             center: locationInMap,
-            zoom: 15,
+            zoom: 10,
             mapId: 'NEXT_MAP',
           };
 
           const map = new Map(mapRef.current as HTMLDivElement, options);
 
           // Add user's marker with a custom icon (blue color)
-          new Marker({
+          const currentUserMarker = new Marker({
             map: map,
             position: locationInMap,
             icon: {
@@ -49,34 +48,37 @@ const GoogleMaps = () => {
             },
           });
 
-          // Add second marker at lat: 33.6, lng: -117.738
-          const secondMarkerLocation = {
-            lat: 33.6,
-            lng: -117.738,
-          };
-
-          const secondMarker = new Marker({
-            map: map,
-            position: secondMarkerLocation,
-          });
-
-          // Add click event listener to second marker
-          secondMarker.addListener('click', async () => {
-            // const geocoder = new Geocoder();
-            const location = {
-              lat: secondMarkerLocation.lat,
-              lng: secondMarkerLocation.lng,
-            };
-            // Reverse geocode the clicked coordinates to get the address
-            // geocoder.geocode({ location }, (results, status) => {
-            //   if (status === 'OK' && results[0]) {
-            //     const address = results[0].formatted_address;
-            //     // Display the address in an alert
-            //     alert('Address: ' + address);
-            //   } else {
-            //     alert('Address not found');
-            //   }
-            // });
+          // Add click event listener to current location marker
+          currentUserMarker.addListener('click', async () => {
+            // Prompt user to select a CSV file
+            const fileInput = document.createElement('input');
+            fileInput.type = 'file';
+            fileInput.accept = '.csv';
+            fileInput.addEventListener('change', (event) => {
+              const file = (event.target as HTMLInputElement).files?.[0];
+              if (file) {
+                const reader = new FileReader();
+                reader.onload = () => {
+                  const csvData = reader.result as string;
+                  // Parse CSV data into rows
+                  const rows = csvData.split('\n');
+                  rows.forEach((row) => {
+                    // Split row into columns
+                    const columns = row.split(',');
+                    // Extract latitude and longitude
+                    const latitude = parseFloat(columns[4]); // Index 4 is latitude
+                    const longitude = parseFloat(columns[5]); // Index 5 is longitude
+                    // Create marker for each row
+                    new Marker({
+                      position: { lat: latitude, lng: longitude },
+                      map: map,
+                    });
+                  });
+                };
+                reader.readAsText(file);
+              }
+            });
+            fileInput.click();
           });
         },
         (error) => {
