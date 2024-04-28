@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import { IoIosArrowDown } from "react-icons/io";
 
 const FindHospitals = () => {
@@ -14,4 +14,4 @@ const FindHospitals = () => {
   )
 }
 
-export default FindHospitals
+export default FindHospitals;
