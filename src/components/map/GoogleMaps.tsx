@@ -1,7 +1,39 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Loader } from '@googlemaps/js-api-loader';
+
+const MyComponent = () => {
+  const [data, setData] = useState<{ message: string } | null>(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('/api/data');
+        if (response.ok) {
+          const jsonData = await response.json();
+          setData(jsonData);
+        } else {
+          console.error('Failed to fetch data:', response.statusText);
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  return (
+    <div>
+      {data ? (
+        <p>{data.message}</p>
+      ) : (
+        <p>Loading...</p>
+      )}
+    </div>
+  );
+};
 
 const GoogleMaps = () => {
   const mapRef = React.useRef<HTMLDivElement>(null);
@@ -67,6 +99,7 @@ const GoogleMaps = () => {
               lat: secondMarkerLocation.lat,
               lng: secondMarkerLocation.lng,
             };
+            alert('Address not found');
             // Reverse geocode the clicked coordinates to get the address
             // geocoder.geocode({ location }, (results, status) => {
             //   if (status === 'OK' && results[0]) {
