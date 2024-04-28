@@ -13,6 +13,9 @@ const About = () => {
             <div className="text-center" >Find Hospitals</div>
             <IoIosArrowDown className="flex justify-center items-center ml-48" size="25"/>
         </div>
+        <div>
+            <img src={"https://i.pinimg.com/736x/8e/9a/a9/8e9aa9b923bb212b6ac85d169f316f19.jpg"} alt="bear" className="border-4 border-dashed border-pink rounded-md w-96 ml-20" />
+        </div>
       </div>
     </div>
   );
