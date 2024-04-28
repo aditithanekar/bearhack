@@ -15,7 +15,6 @@ const GoogleMaps = () => {
 
       const { Map } = await loader.importLibrary('maps');
       const { Marker } = (await loader.importLibrary('marker')) as google.maps.MarkerLibrary;
-      // const { Geocoder } = (await loader.importLibrary('geocoding')) as google.maps.GeocodingLibrary;
 
       // Get user's current location
       navigator.geolocation.getCurrentPosition(
@@ -62,21 +61,23 @@ const GoogleMaps = () => {
 
           // Add click event listener to second marker
           secondMarker.addListener('click', async () => {
-            // const geocoder = new Geocoder();
-            const location = {
-              lat: secondMarkerLocation.lat,
-              lng: secondMarkerLocation.lng,
-            };
-            // Reverse geocode the clicked coordinates to get the address
-            // geocoder.geocode({ location }, (results, status) => {
-            //   if (status === 'OK' && results[0]) {
-            //     const address = results[0].formatted_address;
-            //     // Display the address in an alert
-            //     alert('Address: ' + address);
-            //   } else {
-            //     alert('Address not found');
-            //   }
-            // });
+            // Prompt user to select a CSV file
+            const fileInput = document.createElement('input');
+            fileInput.type = 'file';
+            fileInput.accept = '.csv';
+            fileInput.addEventListener('change', (event) => {
+              const file = (event.target as HTMLInputElement).files?.[0];
+              if (file) {
+                const reader = new FileReader();
+                reader.onload = () => {
+                  const csvData = reader.result as string;
+                  // Now you can parse the CSV data and do whatever you need with it
+                  console.log(csvData);
+                };
+                reader.readAsText(file);
+              }
+            });
+            fileInput.click();
           });
         },
         (error) => {
