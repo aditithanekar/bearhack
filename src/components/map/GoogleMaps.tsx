@@ -34,10 +34,18 @@ const GoogleMaps = () => {
 
           const map = new Map(mapRef.current as HTMLDivElement, options);
 
-          // Add user's marker
+          // Add user's marker with a custom icon (blue color)
           new Marker({
             map: map,
             position: locationInMap,
+            icon: {
+              path: google.maps.SymbolPath.CIRCLE,
+              fillColor: 'blue',
+              fillOpacity: 1,
+              strokeColor: 'white',
+              strokeWeight: 1,
+              scale: 10, // Adjust the size of the marker
+            },
           });
 
           // Add second marker at lat: 39.6, lng: -9.7
