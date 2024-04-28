@@ -35,7 +35,7 @@ const GoogleMaps = () => {
           const map = new Map(mapRef.current as HTMLDivElement, options);
 
           // Add user's marker with a custom icon (blue color)
-          new Marker({
+          const currentUserMarker = new Marker({
             map: map,
             position: locationInMap,
             icon: {
@@ -48,19 +48,8 @@ const GoogleMaps = () => {
             },
           });
 
-          // Add second marker at lat: 33.6, lng: -117.738
-          const secondMarkerLocation = {
-            lat: 33.6,
-            lng: -117.738,
-          };
-
-          const secondMarker = new Marker({
-            map: map,
-            position: secondMarkerLocation,
-          });
-
-          // Add click event listener to second marker
-          secondMarker.addListener('click', async () => {
+          // Add click event listener to current location marker
+          currentUserMarker.addListener('click', async () => {
             // Prompt user to select a CSV file
             const fileInput = document.createElement('input');
             fileInput.type = 'file';
@@ -71,8 +60,17 @@ const GoogleMaps = () => {
                 const reader = new FileReader();
                 reader.onload = () => {
                   const csvData = reader.result as string;
-                  // Now you can parse the CSV data and do whatever you need with it
-                  console.log(csvData);
+                  // Parse CSV data into rows
+                  const rows = csvData.split('\n');
+                  rows.forEach((row) => {
+                    // Split row into columns
+                    const columns = row.split(',');
+                    // Output values from columns 3 and 4
+                    const column3 = columns[4]; // Index 4 is latitude
+                    const column4 = columns[5]; // Index 5 is longitude
+                    console.log('Column 3:', column3);
+                    console.log('Column 4:', column4);
+                  });
                 };
                 reader.readAsText(file);
               }
