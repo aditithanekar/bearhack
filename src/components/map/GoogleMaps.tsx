@@ -65,11 +65,14 @@ const GoogleMaps = () => {
                   rows.forEach((row) => {
                     // Split row into columns
                     const columns = row.split(',');
-                    // Output values from columns 3 and 4
-                    const column3 = columns[4]; // Index 4 is latitude
-                    const column4 = columns[5]; // Index 5 is longitude
-                    console.log('Column 3:', column3);
-                    console.log('Column 4:', column4);
+                    // Extract latitude and longitude
+                    const latitude = parseFloat(columns[4]); // Index 4 is latitude
+                    const longitude = parseFloat(columns[5]); // Index 5 is longitude
+                    // Create marker for each row
+                    new Marker({
+                      position: { lat: latitude, lng: longitude },
+                      map: map,
+                    });
                   });
                 };
                 reader.readAsText(file);
