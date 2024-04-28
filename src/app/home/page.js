@@ -1,6 +1,6 @@
 import React from "react";
-import Provider from "@/components/home/Provider";
-import texts from "@/data/Providers";
+import Provider from "../components/home/Provider";
+import texts from "../data/Providers";
 import About from "../components/home/About"
 
 const page = () => {

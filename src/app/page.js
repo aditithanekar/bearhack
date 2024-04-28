@@ -1,5 +1,5 @@
 import React from "react";
-import Provider from "@/components/home/Provider";
+import Provider from "../components/home/Provider";
 import About from "../components/home/About"
 
 
