@@ -1,6 +1,7 @@
 import React from "react";
-import About from "@/components/home/About";
 import Provider from "@/components/home/Provider";
+import About from "../components/home/About"
+
 
 const page = () => {
   return (
